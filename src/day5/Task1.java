@@ -13,6 +13,7 @@ public class Task1 {
 }
 
 class Car {
+
 	private int releaseYear;
 	private String color;
 	private String model;
