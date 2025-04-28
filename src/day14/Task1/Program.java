@@ -1,8 +1,9 @@
 package day14.Task1;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Program {
 	public static void main(String[] args) {
@@ -10,23 +11,15 @@ public class Program {
 	}
 
 	public static void printSunDigits(File file) {
-		int[] numbers = new int [10];
-		try (Scanner sc = new Scanner(file)) {
-			int i = 0;
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			String[] parts = br.readLine().split(" ");
 			int result = 0;
-			while (sc.hasNextInt()) {
-				numbers[i++] = sc.nextInt();
-			}
-			if (!sc.hasNextInt() && i != 10) {
-				throw new ArrayIndexOutOfBoundsException();
-			}
-			for (int number : numbers) {
-				result += number;
+			for (String part : parts) {
+				int num = Integer.parseInt(part);
+				result += num;
 			}
 			System.out.println(result);
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found");
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (IOException e) {
 			System.out.println("Некорректный входной файл");
 		}
 	}
