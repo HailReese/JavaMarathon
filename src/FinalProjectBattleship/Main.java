@@ -123,74 +123,79 @@ public class Main {
 					if (temp.get(i) != tempValue + i)
 						throw new InvalidShipException();
 				}
+
 				// проверка на то что на данных координатах нет другого корабля и вокруг него
 				// есть свободный ореол
 				for (int i = 0; i < coordinates.length; i++) {
-					if (playerField[commonCoordinate][temp.get(i)] != Cell.EMPTY) {
+					if (playerField[commonCoordinate][temp.get(i)] == Cell.SHIP) {
 						throw new PlaceIsNotEmptyException();
+					} else if (playerField[commonCoordinate][temp.get(i)] == Cell.BUSY) {
+						throw new HaloException();
 					} else {
 						if (commonIndex == 0) {
 							// добавление корабля на поле и ореола вокруг него
 							playerField[commonCoordinate][temp.get(i)] = Cell.SHIP;
+							if (commonCoordinate != 0) {
+								playerField[commonCoordinate - 1][temp.get(i)] = Cell.BUSY;
+							}
+							if (commonCoordinate != 9) {
+								playerField[commonCoordinate + 1][temp.get(i)] = Cell.BUSY;
+							}
 							if (i == 0) {
-								if (commonCoordinate != 0) {
-									playerField[commonCoordinate - 1][temp.get(i) - 1] = Cell.BUSY;
-									playerField[commonCoordinate - 1][temp.get(i)] = Cell.BUSY;
-									playerField[commonCoordinate - 1][temp.get(i) + 1] = Cell.BUSY;
-								}
-								if (temp.get(i) != 0)
+								if (temp.get(i) != 0) {
 									playerField[commonCoordinate][temp.get(i) - 1] = Cell.BUSY;
-								if (temp.get(i) != 9)
-									playerField[commonCoordinate][temp.get(i) + 1] = Cell.BUSY;
+									if (commonCoordinate != 0) {
+										playerField[commonCoordinate - 1][temp.get(i) - 1] = Cell.BUSY;
+									}
+									if (commonCoordinate != 9) {
+										playerField[commonCoordinate + 1][temp.get(i) - 1] = Cell.BUSY;
+									}
+								}
 							} else if (i + 1 == coordinates.length) {
-								if (commonCoordinate != 9) {
-									playerField[commonCoordinate + 1][temp.get(i) - 1] = Cell.BUSY;
-									playerField[commonCoordinate + 1][temp.get(i)] = Cell.BUSY;
-									playerField[commonCoordinate + 1][temp.get(i) + 1] = Cell.BUSY;
+								if (temp.get(i) != 9) {
+									playerField[commonCoordinate][temp.get(i) + 1] = Cell.BUSY;
+									if (commonCoordinate != 0) {
+										playerField[commonCoordinate - 1][temp.get(i) + 1] = Cell.BUSY;
+									}
+									if (commonCoordinate != 9) {
+										playerField[commonCoordinate + 1][temp.get(i) + 1] = Cell.BUSY;
+									}
 								}
-								if (temp.get(i) != 0)
-									playerField[commonCoordinate][temp.get(i) - 1] = Cell.BUSY;
-								if (temp.get(i) != 9)
-									playerField[commonCoordinate][temp.get(i) + 1] = Cell.BUSY;
-							} else {
-								if (temp.get(i) != 0)
-									playerField[commonCoordinate][temp.get(i) + 1] = Cell.BUSY;
-								if (temp.get(i) != 9)
-									playerField[commonCoordinate][temp.get(i) - 1] = Cell.BUSY;
 							}
 						} else if (commonIndex == 1) {
 							// добавление корабля на поле и ореола вокруг него
-							playerField[commonCoordinate][temp.get(i)] = Cell.SHIP;
+							playerField[temp.get(i)][commonCoordinate] = Cell.SHIP;
+							if (commonCoordinate != 0) {
+								playerField[temp.get(i)][commonCoordinate - 1] = Cell.BUSY;
+							}
+							if (commonCoordinate != 9) {
+								playerField[temp.get(i)][commonCoordinate + 1] = Cell.BUSY;
+							}
 							if (i == 0) {
-								if (commonCoordinate != 0) {
-									playerField[commonCoordinate - 1][temp.get(i) - 1] = Cell.BUSY;
-									playerField[commonCoordinate - 1][temp.get(i)] = Cell.BUSY;
-									playerField[commonCoordinate - 1][temp.get(i) + 1] = Cell.BUSY;
+								if (temp.get(i) != 0) {
+									playerField[temp.get(i) - 1][commonCoordinate] = Cell.BUSY;
+									if (commonCoordinate != 0) {
+										playerField[temp.get(i) - 1][commonCoordinate - 1] = Cell.BUSY;
+									}
+									if (commonCoordinate != 9) {
+										playerField[temp.get(i) - 1][commonCoordinate + 1] = Cell.BUSY;
+									}
 								}
-								if (temp.get(i) != 0)
-									playerField[commonCoordinate][temp.get(i) - 1] = Cell.BUSY;
-								if (temp.get(i) != 9)
-									playerField[commonCoordinate][temp.get(i) + 1] = Cell.BUSY;
 							} else if (i + 1 == coordinates.length) {
-								if (commonCoordinate != 9) {
-									playerField[commonCoordinate + 1][temp.get(i) - 1] = Cell.BUSY;
-									playerField[commonCoordinate + 1][temp.get(i)] = Cell.BUSY;
-									playerField[commonCoordinate + 1][temp.get(i) + 1] = Cell.BUSY;
+								if (temp.get(i) != 9) {
+									playerField[temp.get(i) + 1][commonCoordinate] = Cell.BUSY;
+									if (commonCoordinate != 0) {
+										playerField[temp.get(i) + 1][commonCoordinate - 1] = Cell.BUSY;
+									}
+									if (commonCoordinate != 9) {
+										playerField[temp.get(i) + 1][commonCoordinate + 1] = Cell.BUSY;
+									}
 								}
-								if (temp.get(i) != 0)
-									playerField[commonCoordinate][temp.get(i) - 1] = Cell.BUSY;
-								if (temp.get(i) != 9)
-									playerField[commonCoordinate][temp.get(i) + 1] = Cell.BUSY;
-							} else {
-								if (temp.get(i) != 0)
-									playerField[commonCoordinate][temp.get(i) + 1] = Cell.BUSY;
-								if (temp.get(i) != 9)
-									playerField[commonCoordinate][temp.get(i) - 1] = Cell.BUSY;
 							}
 						}
 					}
 				}
-
+				amountOfShips++;
 			} catch (IncorrectCoordinatesException e) {
 				System.out.println(
 						"Некорректные входные данные. Каждая координата должна быть в диапазоне от 0 до 9 включительно.");
